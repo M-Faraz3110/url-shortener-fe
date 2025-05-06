@@ -10,4 +10,36 @@ declare global {
 	}
 }
 
-export {};
+export { };
+	
+export interface UrlInput {
+	url: string;	
+}
+
+export interface ShortenedUrl {
+	id: string,
+    url: string,
+	short_url: string,
+	favourite: boolean,
+    deleted: bool,
+    created_at: string,
+}
+
+export interface ShortenedUrlResponse {
+	id: string,
+    url: string,
+	short_url: string,
+	favourite: boolean,
+    deleted: bool,
+    created_at: string,
+}
+
+export interface UserLogin {
+	username: string;
+	password: string;
+}
+
+export interface UserRegister {
+	username: string;
+	password: string;
+}

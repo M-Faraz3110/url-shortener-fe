@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { getLoggedIn } from '$lib/auth.svelte';
 	import '../app.css';
 	import { AppBar } from '@skeletonlabs/skeleton-svelte';
 

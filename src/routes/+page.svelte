@@ -7,10 +7,6 @@
 <div class="flex justify-center">
 	<div class="grid min-w-full grid-cols-1 gap-5 md:min-w-[750px]">
 		<h1 class="py-6 text-center text-2xl font-bold">Shorten URLs instantly!</h1>
-		{#if getLoggedIn()}
-			<ShortenUrlCard />
-		{:else}
-			<LoginCard />
-		{/if}
+		<LoginCard />
 	</div>
 </div>

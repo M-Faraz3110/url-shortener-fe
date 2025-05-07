@@ -1,5 +1,37 @@
+import { goto } from "$app/navigation";
 import { setLoggedIn } from "$lib/auth.svelte";
+import { config } from "$lib/config";
+import type { LoginResponse } from "./app";
 
-export function login(username: string, password: string) {
+export async function login(username: string, password: string) {
+    console.log("Logging in with username:", username);
+    console.log("backendUrl:", config.backendUrl);
+    const response = await fetch(
+        config.backendUrl + "/users/login",
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password,
+            }),
+        }
+    );
+    if (!response.ok) {
+        console.error("Login failed");
+        return;
+    }
+    
+    const data = await response.json() as LoginResponse;
+    console.log("Login response:", data);
+    if (data.token.length === 0) {
+        console.error("Login failed");
+        return;
+    }
+    localStorage.setItem("token", data.token);
+    goto("/dashboard");
+
     setLoggedIn(true);
  }

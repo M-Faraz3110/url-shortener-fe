@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { UrlInput } from './app';
+	import { addUrl } from './UrlStore.svelte';
 
 	let inputUrl: UrlInput = {
 		url: ''
@@ -15,7 +16,10 @@
 				placeholder="Enter URL..."
 				bind:value={inputUrl.url}
 			/>
-			<button class="btn preset-filled-primary-500 rounded-none rounded-r-lg">Shorten URL</button>
+			<button
+				class="btn preset-filled-primary-500 rounded-none rounded-r-lg"
+				onclick={() => addUrl(inputUrl)}>Shorten URL</button
+			>
 		</div>
 	</label>
 </div>

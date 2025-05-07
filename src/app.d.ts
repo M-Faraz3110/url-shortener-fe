@@ -39,6 +39,10 @@ export interface UserLogin {
 	password: string;
 }
 
+export interface LoginResponse {
+	token: string;
+}
+
 export interface UserRegister {
 	username: string;
 	password: string;

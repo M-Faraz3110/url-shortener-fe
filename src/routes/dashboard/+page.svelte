@@ -1,9 +1,20 @@
 <script lang="ts">
+	import { getLoggedIn } from '$lib/auth.svelte';
+	import { onMount } from 'svelte';
 	import ShortenedUrlCard from '../../ShortenedURLCard.svelte';
 	import ShortenUrlCard from '../../ShortenURLCard.svelte';
-	import { urlStore } from '../../UrlStore.svelte';
+	import { getUrls, urlStore } from '../../UrlStore.svelte';
+	import { goto } from '$app/navigation';
 
 	console.log('urlStore', urlStore);
+	onMount(() => {
+		const token = localStorage.getItem('token');
+		if (!token) {
+			goto('/');
+			return;
+		}
+		getUrls(token);
+	});
 </script>
 
 <div class="flex justify-center">
@@ -12,13 +23,14 @@
 
 		<ShortenUrlCard />
 
+		<!-- get created urls -->
 		<div class="py-6 text-center">
 			<h3 class="p-3 text-center">Your Shortened URLs</h3>
 			{#if urlStore.length === 0}
 				<p class="text-center text-sm">No URLs shortened yet.</p>
 			{:else}
-				{#each urlStore as url}
-					<ShortenedUrlCard />
+				{#each urlStore as url (url.id)}
+					<ShortenedUrlCard {url} />
 				{/each}
 			{/if}
 		</div>

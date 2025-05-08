@@ -1,3 +1,4 @@
+import { goto } from "$app/navigation";
 import { config } from "$lib/config";
 import type { ShortenedUrl, UrlInput } from "./app";
 import type { ShortenedUrlResponse } from "./app";
@@ -24,6 +25,8 @@ export async function addUrl(input: UrlInput) {
     if (!response.ok) {
         if (response.status === 401) {
             console.error("Unauthorized. Please log in.");
+            //pop up to show expired/invalid token?
+            goto("/")
             return;
          }
         console.error("Failed to add URL");
@@ -65,6 +68,8 @@ export async function deleteUrl(id: string) {
     if (!response.ok) {
         if (response.status === 401) {
             console.error("Unauthorized. Please log in.");
+            //pop up to show expired/invalid token?
+            goto("/")
             return;
          }
         console.error("Failed to delete URL");
@@ -95,6 +100,8 @@ export async function getUrls(token: string) {
     if (!response.ok) {
         if (response.status === 401) {
             console.error("Unauthorized. Please log in.");
+            //pop up to show expired/invalid token?
+            goto("/")
             return;
          }
         console.error("Failed to get URLs");
@@ -125,7 +132,7 @@ export async function favoriteUrl(id: string, state: boolean) {
     const response = await fetch(
         config.backendUrl + "/urls/favourite/" + id,
         {
-            method: 'POST',
+            method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem("token"),
@@ -139,6 +146,8 @@ export async function favoriteUrl(id: string, state: boolean) {
     if (!response.ok) {
         if (response.status === 401) {
             console.error("Unauthorized. Please log in.");
+            //pop up to show expired/invalid token?
+            goto("/")
             return;
          }
         console.error("Failed to favorite URL");

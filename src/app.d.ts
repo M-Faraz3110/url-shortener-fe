@@ -12,6 +12,11 @@ declare global {
 
 export { };
 	
+export interface Tab {
+	label: string;
+	value: number;
+}
+	
 export interface UrlInput {
 	url: string;	
 }

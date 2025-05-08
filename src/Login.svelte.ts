@@ -35,3 +35,12 @@ export async function login(username: string, password: string) {
 
     setLoggedIn(true);
  }
+
+export async function logout() {
+    console.log("logging out")
+    localStorage.removeItem("token")
+    setLoggedIn(false)
+
+    goto("/")
+    
+ }

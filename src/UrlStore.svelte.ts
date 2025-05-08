@@ -108,3 +108,45 @@ export async function getUrls(token: string) {
 
     urlStore.push(...data);
 }
+
+export async function favoriteUrl(id: string, state: boolean) {
+    let index = urlStore.findIndex((url) => url.id === id);
+    let url = urlStore[index];
+    
+    if (!url) {
+        // Handle the case where the URL is not found
+        console.error(`URL with id ${id} not found.`);
+        return;
+    }
+
+    //delete url on BE
+    console.log("Favoriting URL:", url.url);
+    console.log("backendUrl:", config.backendUrl + "/urls/favorite");
+    const response = await fetch(
+        config.backendUrl + "/urls/favourite/" + id,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + localStorage.getItem("token"),
+            },
+            body: JSON.stringify({
+                favourite: state,
+            }),
+        }
+    )
+    console.log(response);
+    if (!response.ok) {
+        if (response.status === 401) {
+            console.error("Unauthorized. Please log in.");
+            return;
+         }
+        console.error("Failed to favorite URL");
+        return;
+    }
+    const data = await response.json() as ShortenedUrlResponse;
+    console.log("Favorite URL response:", data);
+
+    urlStore[index].favourite = data.favourite;
+    console.log("Favorite URL response:", urlStore[index]);
+}

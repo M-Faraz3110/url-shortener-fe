@@ -1,6 +1,7 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import type { UserLogin } from './app';
-	import { login } from './Login.svelte';
+	import { login, register } from './Login.svelte';
 
 	let loginData: UserLogin = {
 		username: '',
@@ -27,6 +28,11 @@
 		<button
 			class="btn preset-filled-primary-500 w-full text-sm"
 			onclick={() => login(loginData.username, loginData.password)}>Sign in</button
+		>
+	</div>
+	<div class="mt-4 flex items-center justify-center">
+		<button class="btn preset-filled-primary-500 w-full text-sm" onclick={() => goto('/register')}
+			>Sign up</button
 		>
 	</div>
 </div>

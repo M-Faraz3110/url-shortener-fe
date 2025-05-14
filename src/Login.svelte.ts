@@ -9,7 +9,13 @@ export enum RegisterResult {
     Conflict,
 }
 
-export async function login(username: string, password: string) {
+export enum LoginResult {
+    Success,
+    Failed,
+    Incorrect,
+}
+
+export async function login(username: string, password: string) : Promise<LoginResult> {
     console.log("Logging in with username:", username);
     console.log("backendUrl:", config.backendUrl);
     const response = await fetch(
@@ -26,20 +32,26 @@ export async function login(username: string, password: string) {
         }
     );
     if (!response.ok) {
+        console.log(response.status);
+        if (response.status === 404 || response.status === 400) {
+            console.error("User not found");
+            return LoginResult.Incorrect;
+        }
         console.error("Login failed");
-        return;
+        return LoginResult.Failed;
     }
     
     const data = await response.json() as LoginResponse;
     console.log("Login response:", data);
     if (data.token.length === 0) {
         console.error("Login failed");
-        return;
+        return LoginResult.Failed;
     }
     localStorage.setItem("token", data.token);
-    goto("/dashboard");
+    //goto("/dashboard");
+    return LoginResult.Success;
 
-    setLoggedIn(true);
+    //setLoggedIn(true);
  }
 
 export async function logout() {

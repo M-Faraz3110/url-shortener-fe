@@ -4,6 +4,7 @@
 	import { Tooltip } from '@skeletonlabs/skeleton-svelte';
 	import ShortenedUrlCard from '../../ShortenedURLCard.svelte';
 	import { goto } from '$app/navigation';
+	import { ArrowLeft } from '@lucide/svelte';
 
 	let success = false;
 	let exists = false;
@@ -37,8 +38,13 @@
 </script>
 
 {#if success === false}
+	<div class="float-left p-4">
+		<button onclick={() => goto('/')}>
+			<ArrowLeft size={24} />
+		</button>
+	</div>
 	<div class="card w-full justify-center p-4 text-center sm:mx-auto sm:w-full sm:max-w-sm">
-		<h3 class="mb-4 mt-4 text-center text-lg font-medium">Sign up for your account</h3>
+		<h3 class="mb-4 mt-4 p-4 text-center text-lg font-medium">Sign up for your account</h3>
 		<label class="label p-2">
 			<div class="flex w-full justify-between">
 				<span class="label-text text-left">Username</span>
